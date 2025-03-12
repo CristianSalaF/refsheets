@@ -7,6 +7,9 @@
 
 2. [Javascript](./m04/javascript.md)
 
+## M03
+3. [T4-repàs](./m03/t4-repas.md)
+
 ## M08
 
-3. [Kotlin](./M08/Kotlin.md)
+4. [Kotlin](./M08/Kotlin.md)
