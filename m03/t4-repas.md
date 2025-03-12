@@ -66,7 +66,7 @@ taula.Add("Nom", "Joan");
 taula.Add("Edat", 25);
 
 // Display values
-foreach (DictionaryEntry entry in taula)
+foreach (DictionaryEntry /*var should work as well*/ entry in taula)
 {
     Console.WriteLine($"{entry.Key}: {entry.Value}");
 }
