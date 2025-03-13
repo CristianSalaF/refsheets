@@ -231,62 +231,41 @@ foreach (var item in customerOrders)
 }
 ```
 
-## XML Operations (System.Xml.Linq)
+## Plain text file operations
 
 ```csharp
-// Reading XML
-public void LlegirXML()
+// Reading Text File
+public void LlegirTextFile()
 {
-    XDocument doc = XDocument.Load("empleats.xml");
-    
-    // Query with LINQ
-    var empleats = from emp in doc.Descendants("empleat")
-                   select new
-                   {
-                       Nom = emp.Element("nom").Value,
-                       Cognom = emp.Element("cognom").Value
-                   };
-    
-    foreach (var emp in empleats)
+    using (var reader = new StreamReader("log.txt"))
     {
-        Console.WriteLine($"{emp.Nom} {emp.Cognom}");
+        string line;
+        while ((line = reader.ReadLine()) != null)
+        {
+            Console.WriteLine(line);
+        }
     }
-    
-    // Filtering with LINQ
-    var empsGrans = from emp in doc.Descendants("empleat")
-                    where int.Parse(emp.Element("edat").Value) > 26
-                    select new
-                    {
-                        Nom = emp.Element("nom").Value,
-                        Edat = int.Parse(emp.Element("edat").Value)
-                    };
 }
 
-// Writing XML
-public void CrearXML()
+// Writing to Text File (Append Mode)
+public void EscriureTextFileAppend()
 {
-    var empleats = new List<Empleat>
+    // The true parameter enables append mode
+    using (var writer = new StreamWriter("log.txt", true))
     {
-        new Empleat { Id = 1, Nom = "Joan", Cognom = "Garcia", Edat = 30 },
-        new Empleat { Id = 2, Nom = "Anna", Cognom = "Martínez", Edat = 25 }
-    };
-    
-    XDocument doc = new XDocument(
-        new XElement("empleats",
-            from emp in empleats
-            select new XElement("empleat",
-                new XElement("id", emp.Id),
-                new XElement("nom", emp.Nom),
-                new XElement("cognom", emp.Cognom),
-                new XElement("edat", emp.Edat)
-            )
-        )
-    );
-    
-    // Auto-close with using
-    using (var writer = new StreamWriter("empleats.xml"))
+        writer.WriteLine($"{DateTime.Now}: Application started");
+        writer.WriteLine($"{DateTime.Now}: Operation completed");
+    } // File is automatically closed when the using block ends
+}
+
+// Writing to Text File (Overwrite Mode)
+public void EscriureTextFile()
+{
+    // Without the true parameter, the file is overwritten
+    using (var writer = new StreamWriter("log.txt"))
     {
-        doc.Save(writer);
+        writer.WriteLine("Nova entrada de log");
+        writer.WriteLine("Segona entrada de log");
     }
 }
 ```
@@ -362,6 +341,66 @@ public void EscriureJSON()
     using (var writer = new StreamWriter("empleats.json"))
     {
         writer.Write(json);
+    }
+}
+```
+
+## XML Operations (System.Xml.Linq)
+
+```csharp
+// Reading XML
+public void LlegirXML()
+{
+    XDocument doc = XDocument.Load("empleats.xml");
+    
+    // Query with LINQ
+    var empleats = from emp in doc.Descendants("empleat")
+                   select new
+                   {
+                       Nom = emp.Element("nom").Value,
+                       Cognom = emp.Element("cognom").Value
+                   };
+    
+    foreach (var emp in empleats)
+    {
+        Console.WriteLine($"{emp.Nom} {emp.Cognom}");
+    }
+    
+    // Filtering with LINQ
+    var empsGrans = from emp in doc.Descendants("empleat")
+                    where int.Parse(emp.Element("edat").Value) > 26
+                    select new
+                    {
+                        Nom = emp.Element("nom").Value,
+                        Edat = int.Parse(emp.Element("edat").Value)
+                    };
+}
+
+// Writing XML
+public void CrearXML()
+{
+    var empleats = new List<Empleat>
+    {
+        new Empleat { Id = 1, Nom = "Joan", Cognom = "Garcia", Edat = 30 },
+        new Empleat { Id = 2, Nom = "Anna", Cognom = "Martínez", Edat = 25 }
+    };
+    
+    XDocument doc = new XDocument(
+        new XElement("empleats",
+            from emp in empleats
+            select new XElement("empleat",
+                new XElement("id", emp.Id),
+                new XElement("nom", emp.Nom),
+                new XElement("cognom", emp.Cognom),
+                new XElement("edat", emp.Edat)
+            )
+        )
+    );
+    
+    // Auto-close with using
+    using (var writer = new StreamWriter("empleats.xml"))
+    {
+        doc.Save(writer);
     }
 }
 ```
