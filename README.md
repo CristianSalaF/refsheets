@@ -1,19 +1,22 @@
 # quick ref sheets
 
 ## M02
-1. [NF3 - Triggers/Exceptions](./m02/NF3-triggers-exceptions.md)
+[NF3 - Triggers/Exceptions](./m02/NF3-triggers-exceptions.md)
 
 ## M04
 
-2. [Javascript](./m04/javascript.md)
+[Javascript](./m04/javascript.md)
 
 ## M03
-3. [T4-repàs](./m03/t4-repas.md)
+[T4-repàs](./m03/t4-repas.md)
+
+## M06
+[Linq/EF](./M06/Linq.md)
 
 ## M08
 
-4. [Kotlin](./M08/Kotlin.md)
+[Kotlin](./M08/Kotlin.md)
 
 
 ## M09
-5. [T2.Processos](./m09/t2.md)
+[T2.Processos](./m09/t2.md)
