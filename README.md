@@ -12,6 +12,7 @@
 
 ## M06
 [LINQ/EF](./M06/Linq.md)
+
 [LINQ/XML files](./M06/XML.md)
 
 ## M08
