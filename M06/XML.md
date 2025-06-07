@@ -2,7 +2,7 @@
 
 **[XMLReader/XMLWriter](./XML-RW.md)** are stream-based classes that provide fast, forward-only access to XML data. They're memory-efficient for large files but limited in functionality for complex operations.
 
-**XMLDocument** provides a complete DOM representation of the XML document, allowing full navigation and manipulation but consuming more memory.
+**[XMLDocument](./XMLDocument.md)** provides a complete DOM representation of the XML document, allowing full navigation and manipulation but consuming more memory.
 
 **LINQ to XML** offers a modern, object-oriented approach that balances efficiency with ease of use, making it ideal for most CRUD scenarios.
 
