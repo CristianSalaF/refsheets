@@ -11,7 +11,8 @@
 [T4-repàs](./m03/t4-repas.md)
 
 ## M06
-[Linq/EF](./M06/Linq.md)
+[LINQ/EF](./M06/Linq.md)
+[LINQ/XML files](./M06/XML.md)
 
 ## M08
 
