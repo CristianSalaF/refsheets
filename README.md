@@ -15,6 +15,8 @@
 
 [LINQ/XML files](./M06/XML.md)
 
+[BSONDocument Aggregation](./M06/Aggregation-BSONDocument.md)
+
 ## M08
 
 [Kotlin](./M08/Kotlin.md)
