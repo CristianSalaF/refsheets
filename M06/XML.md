@@ -89,6 +89,53 @@ if (empleat != null)
 }
 ```
 
+### **Update (Multiple Fields Using SetElementValue)**
+
+```csharp
+public bool UpdateEmpleat(int id, string newNom, string newCognom, int newEdat)
+{
+    XDocument doc = XDocument.Load("empleats.xml");
+    
+    var empleat = doc.Descendants("empleat")
+                     .Where(e => Convert.ToInt32(e.Attribute("id").Value) == id)
+                     .FirstOrDefault();
+    
+    if (empleat != null)
+    {
+        empleat.SetElementValue("nom", newNom);
+        empleat.SetElementValue("cognom", newCognom);
+        empleat.SetElementValue("edat", newEdat);
+        
+        doc.Save("empleats.xml");
+        Console.WriteLine($"Updated employee ID {id}: {newNom} {newCognom}, {newEdat} years");
+        return true;
+    }
+    
+    Console.WriteLine($"Employee with ID {id} not found.");
+    return false;
+}
+
+```
+
+### **Bulk Update operations**
+
+```csharp
+public void IncrementAllAges(int increment)
+{
+    XDocument doc = XDocument.Load("empleats.xml");
+    
+    var empleats = doc.Descendants("empleat");
+    
+    foreach (var empleat in empleats)
+    {
+        int currentAge = Convert.ToInt32(empleat.Element("edat").Value);
+        empleat.Element("edat").SetValue(currentAge + increment);
+    }
+    
+    doc.Save("empleats.xml");
+    Console.WriteLine($"Incremented all employee ages by {increment} years");
+}
+```
 
 ### **Delete (Removing Records)**
 
