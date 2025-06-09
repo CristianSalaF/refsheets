@@ -10,7 +10,7 @@
 
 LINQ to XML will likely be the most practical choice for implementing CRUD operations.
 
-### **Create (Adding New Records)**
+### **Create (Adding a single New Record)**
 
 ```csharp
 // Create a new employee and add to existing XML
@@ -25,6 +25,34 @@ xml.Add(newEmpleat);
 xml.Save("empleats.xml");
 ```
 
+### **Create (XML from Object Collection)**
+
+```csharp
+public void CreateEmpleatsFromCollection()
+{
+    var empleats = new[]
+    {
+        new { Id = 1, Nom = "Joan", Cognom = "Garcia", Edat = 30 },
+        new { Id = 2, Nom = "Anna", Cognom = "Martínez", Edat = 25 },
+        new { Id = 3, Nom = "Pere", Cognom = "López", Edat = 28 }
+    };
+    
+    XDocument doc = new XDocument(
+        new XDeclaration("1.0", "utf-8", "yes"),
+        new XElement("empleats",
+            from emp in empleats
+            select new XElement("empleat",
+                new XAttribute("id", emp.Id),
+                new XElement("nom", emp.Nom),
+                new XElement("cognom", emp.Cognom),
+                new XElement("edat", emp.Edat)
+            )
+        )
+    );
+    
+    doc.Save("empleats_new.xml");
+}
+```
 
 ### **Read (Querying Data)**
 
@@ -77,6 +105,57 @@ if (empleatToDelete != null)
 }
 ```
 
+### Filtering (LINQ)
+```csharp
+public void FindEmpleatsByAge(int minAge)
+{
+    XDocument doc = XDocument.Load("empleats.xml");
+    
+    var empleatsMajors = doc.Descendants("empleat")
+                           .Where(e => Convert.ToInt32(e.Element("edat").Value) > minAge)
+                           .Select(e => new
+                           {
+                               Id = Convert.ToInt32(e.Attribute("id").Value),
+                               Nom = e.Element("nom").Value,
+                               Cognom = e.Element("cognom").Value,
+                               Edat = Convert.ToInt32(e.Element("edat").Value)
+                           });
+    
+    Console.WriteLine($"Employees older than {minAge}:");
+    foreach (var emp in empleatsMajors)
+    {
+        Console.WriteLine($"- {emp.Nom} {emp.Cognom} ({emp.Edat} years)");
+    }
+}
+```
+
+### Filtering - Finding Specific Employee by ID
+```csharp
+public void FindEmpleatById(int targetId)
+{
+    XDocument doc = XDocument.Load("empleats.xml");
+    
+    var empleat = doc.Descendants("empleat")
+                     .Where(e => Convert.ToInt32(e.Attribute("id").Value) == targetId)
+                     .Select(e => new
+                     {
+                         Id = Convert.ToInt32(e.Attribute("id").Value),
+                         Nom = e.Element("nom").Value,
+                         Cognom = e.Element("cognom").Value,
+                         Edat = Convert.ToInt32(e.Element("edat").Value)
+                     })
+                     .FirstOrDefault();
+    
+    if (empleat != null)
+    {
+        Console.WriteLine($"Found: {empleat.Nom} {empleat.Cognom}, Age: {empleat.Edat}");
+    }
+    else
+    {
+        Console.WriteLine($"Employee with ID {targetId} not found.");
+    }
+}
+```
 
 ## Complete CRUD Class Example
 
